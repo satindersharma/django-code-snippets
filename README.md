@@ -55,6 +55,7 @@ def random_data(ne=100, es=3):
 
 
 if __name__ == '__main__':
+    # autopip8 will shift this to up so imorting here as it should be after django setup
     from ermapp.models import DashboardTable
     print('filling some random data')
     if len(argv) == 1:
