@@ -70,3 +70,49 @@ if __name__ == '__main__':
     else:
         random_data()
 ```
+
+
+
+
+
+## Update form inital if there is UpdateView:
+## Or passing another form model initial to a combine form
+```python
+class LeadForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(LeadForm, self).__init__(*args, **kwargs)
+        # print("intial sevalue", self)
+        # print("intial arvalue", args)
+        # print("intial arvalue", kwargs)
+        # print("cdfd",self.fields["followup_date"].initial)
+        c_lead = kwargs.get("instance")
+        # c_followup = None
+        if c_lead is not None:
+            # print(self.fields["followup_date"].value)
+            try:
+                c_followup = Followup.objects.get(lead_id=c_lead)
+                self.fields["followup_status_id"].initial = c_followup.followup_status_id
+                self.fields["followup_score_id"].initial = c_followup.followup_score_id
+                self.fields["followup_date"].initial = c_followup.followup_date
+                self.fields["followup_remarks"].initial = c_followup.followup_remarks
+            except Followup.DoesNotExist:
+                print("c_followup.DoesNotExist")
+```
+
+
+## comparing date
+## or writing error for form field
+```python
+from django.utils.translation import gettext, gettext_lazy as _
+from django.utils import timezone
+from django.utils.dateparse import parse_date
+    def clean_followup_date(self):
+        followup_date = self.cleaned_data.get('followup_date')
+        # print("fty",type(followup_date))
+        # print("fty",type(timezone.localdate()))
+        # print(followup_date < timezone.localdate())
+        if followup_date is not None and (followup_date < timezone.localdate()):
+            msg = _("Past date not allowed.")
+            self.add_error('followup_date', msg)
+        return followup_date
+```
