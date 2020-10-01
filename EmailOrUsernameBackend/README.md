@@ -5,7 +5,7 @@
 #### create file backends.py in users app
 
 ##### in settings.py
+```python
 AUTHENTICATION_BACKENDS = [
     'users.backends.EmailOrUsernameModelBackend', 'django.contrib.auth.backends.ModelBackend']
-    
-    
+```
