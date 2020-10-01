@@ -116,3 +116,21 @@ from django.utils.dateparse import parse_date
             self.add_error('followup_date', msg)
         return followup_date
 ```
+
+
+
+
+
+
+
+## How to make email uniqe
+
+add unique_together = ('email',) to the user model
+helpful when you inheriting the abstract model and don't want to touch the way abstract define the email
+```python
+    class Meta:
+        verbose_name = "User"
+        verbose_name_plural = "Users"
+        db_table = 'user'
+        unique_together = ('email',)
+ ```
