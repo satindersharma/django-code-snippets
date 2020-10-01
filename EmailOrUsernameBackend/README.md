@@ -1,1 +1,11 @@
 ### allow user to login with email or username
+
+#### assume your app name is users 
+
+#### create file backends.py in users app
+
+##### in settings.py
+AUTHENTICATION_BACKENDS = [
+    'users.backends.EmailOrUsernameModelBackend', 'django.contrib.auth.backends.ModelBackend']
+    
+    
