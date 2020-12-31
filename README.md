@@ -134,3 +134,34 @@ helpful when you inheriting the abstract model and don't want to touch the way a
         db_table = 'user'
         unique_together = ('email',)
  ```
+
+
+
+# from invalid ajax response
+
+#### according ot document.
+
+```python
+def form_invalid(self, form):
+    response = super().form_invalid(form)
+        # queryset = object_list if object_list is not None else self.object_list
+        # AttributeError: 'SpareFormView' object has no attribute 'object_list'
+    if self.request.is_ajax():
+        return JsonResponse(form.errors, status=400)
+    return response
+```
+# But
+
+##### above cause following error if you class inherite ListView alongside of CreateView i.e class MyClass(CreateView, ListView)
+        #     # queryset = object_list if object_list is not None else self.object_list
+        #     # AttributeError: 'SpareFormView' object has no attribute 'object_list'
+to resolve this change form_invalid to this
+
+```python
+from django.http import JsonResponse, HttpResponse
+def form_invalid(self, form):
+    if self.request.is_ajax():
+        errors = form.errors.as_json()
+        return HttpResponse(errors, status=400, content_type='application/json')
+    return super().form_invalid(form)
+```
