@@ -165,3 +165,24 @@ def form_invalid(self, form):
         return HttpResponse(errors, status=400, content_type='application/json')
     return super().form_invalid(form)
 ```
+
+
+
+# Run without providing port no in django
+
+as default port for http is 80 as mention here [port ](https://en.wikipedia.org/wiki/Port_(computer_networking))
+
+so 
+
+
+`python manage.py runserver 0.0.0.0:80`
+
+
+will run app on 
+`192.168.0.190` (i.e without providing port no)
+
+or
+
+just by typing `localhost`
+
+so we don't neet to provide port to run in browser
